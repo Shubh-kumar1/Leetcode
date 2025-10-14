@@ -4,32 +4,52 @@ class Solution {
         if (n < 2 * k) {
             return false;
         }
-        
         if (k <= 1) {
-            return n >= 2*k;
+            return n >= 2 * k;
         }
 
-        boolean[] isIncreasing = new boolean[n];
-        int count = 1;
+        int count = 2;
+        int runLength = 1;
 
         for (int i = 1; i < n; i++) {
             if (nums.get(i) > nums.get(i - 1)) {
-                count++;
+                runLength++;
             } else {
-                count = 1;
+                runLength = 1;
+                if (count == 1) {
+                    count = 2;
+                }
             }
 
-            if (count >= k) {
-                isIncreasing[i] = true;
-            }
+            if (count == 2) {
+                if (runLength >= k) {
+                    count--;
 
-            if (i >= (2 * k - 1)) {
-                if (isIncreasing[i] && isIncreasing[i - k]) {
-                    return true;
+                    int secondSubarrayStartIndex = i + 1;
+                    
+                    if (secondSubarrayStartIndex + k > n) {
+                        count = 2; 
+                        continue;
+                    }
+
+                    boolean secondIsIncreasing = true;
+                    for (int j = secondSubarrayStartIndex + 1; j < secondSubarrayStartIndex + k; j++) {
+                        if (nums.get(j) <= nums.get(j - 1)) {
+                            secondIsIncreasing = false;
+                            break;
+                        }
+                    }
+
+                    if (secondIsIncreasing) {
+                        count--;
+                        return true;
+                    } else {
+                        count = 2;
+                    }
                 }
             }
         }
-
+        
         return false;
     }
 }
