@@ -1,6 +1,6 @@
 class Solution {
     public char repeatedCharacter(String s) {
-        char ans = ' ';
+        char ans = s.charAt(0);
         int minSecondIndex = Integer.MAX_VALUE;
         for(int i=0; i<s.length(); i++){
             for(int j=i+1; j<s.length(); j++){
